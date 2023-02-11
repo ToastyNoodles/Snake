@@ -41,57 +41,29 @@ int speed = 10;
 
 void input()
 {
-	if (IsKeyDown(KEY_UP))
+	if (IsKeyPressed(KEY_UP))
 	{
-		if (vertical == 1)
-		{
-			horizontal = 0;
-			vertical = 1;
-		}
-		else
-		{
-			horizontal = 0;
-			vertical = -1;
-		}
+		if (vertical == 1) { return; }
+		horizontal = 0;
+		vertical = -1;
 	}
-	if (IsKeyDown(KEY_DOWN))
+	if (IsKeyPressed(KEY_DOWN))
 	{
-		if (vertical == -1)
-		{
-			horizontal = 0;
-			vertical = -1;
-		}
-		else
-		{
-			horizontal = 0;
-			vertical = 1;
-		}
+		if (vertical == -1) { return; }
+		horizontal = 0;
+		vertical = 1;
 	}
-	if (IsKeyDown(KEY_LEFT))
+	if (IsKeyPressed(KEY_LEFT))
 	{
-		if (horizontal == 1)
-		{
-			horizontal = 1;
-			vertical = 0;
-		}
-		else
-		{
-			horizontal = -1;
-			vertical = 0;
-		}
+		if (horizontal == 1) { return; }
+		horizontal = -1;
+		vertical = 0;
 	}
-	if (IsKeyDown(KEY_RIGHT))
+	if (IsKeyPressed(KEY_RIGHT))
 	{
-		if (horizontal == -1)
-		{
-			horizontal = -1;
-			vertical = 0;
-		}
-		else
-		{
-			horizontal = 1;
-			vertical = 0;
-		}
+		if (horizontal == -1) { return; }
+		horizontal = 1;
+		vertical = 0;
 	}
 }
 
