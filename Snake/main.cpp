@@ -22,8 +22,9 @@ struct Apple
 	int x;
 	int y;
 	Color color;
-};
+} apple;
 
+int frames = 0;
 int width = 600;
 int height = 600;
 int tileSize = 41;
@@ -33,7 +34,6 @@ int yDifference = height / tileSize;
 const int snakeLength = 529;
 int snakesCurrentLength = 0;
 Snake segments[snakeLength];
-Apple apple;
 
 int horizontal = 0;
 int vertical = 0;
@@ -67,6 +67,24 @@ void input()
 	}
 }
 
+void draw()
+{
+	for (int x = 0; x < width / tileSize; x++)
+	{
+		for (int y = 0; y < height / tileSize; y++)
+		{
+			DrawRectangle(x * tileSize + xDifference, y * tileSize + yDifference * 1.5, tileSize - 1, tileSize - 1, WHITE);
+		}
+	}
+
+	for (int i = 0; i <= snakesCurrentLength; i++)
+	{
+		DrawRectangle(segments[i].x * tileSize + xDifference, segments[i].y * tileSize + yDifference * 1.5, tileSize - 1, tileSize - 1, segments[i].color);
+	}
+
+	DrawRectangle(apple.x * tileSize + xDifference, apple.y * tileSize + yDifference * 1.5, tileSize - 1, tileSize - 1, apple.color);
+}
+
 void start()
 {
 	for (int i = 0; i <= snakesCurrentLength; i++)
@@ -87,7 +105,7 @@ void start()
 	apple.color = RED;
 }
 
-void update()
+void updateFrame()
 {
 	if (state != GAMEOVER)
 	{
@@ -113,10 +131,7 @@ void update()
 				segments[i].y = segments[i - 1].preY;
 				segments[i].color = GREEN;
 			}
-		}
 
-		for (int i = 0; i <= snakesCurrentLength; i++)
-		{
 			if (i != 0)
 			{
 				if (segments[0].x == segments[i].x && segments[0].y == segments[i].y)
@@ -148,60 +163,28 @@ void update()
 	}
 }
 
-void draw()
+void updateDraw()
 {
 	if (state == GAMEOVER)
 	{
 		horizontal = 0;
 		vertical = 0;
+
 		std::string text = "Score: " + std::to_string(snakesCurrentLength) + " | " + "GAMEOVER - Spacebar";
 		DrawText(text.c_str(), (width / 2) - 120, 3, 18, WHITE);
 
-		for (int x = 0; x < width / tileSize; x++)
-		{
-			for (int y = 0; y < height / tileSize; y++)
-			{
-				DrawRectangle(x * tileSize + xDifference, y * tileSize + yDifference * 1.5, tileSize - 1, tileSize - 1, WHITE);
-			}
-		}
-
-		for (int i = 0; i <= snakesCurrentLength; i++)
-		{
-			DrawRectangle(segments[i].x * tileSize + xDifference, segments[i].y * tileSize + yDifference * 1.5, tileSize - 1, tileSize - 1, segments[i].color);
-		}
-
-		DrawRectangle(apple.x * tileSize + xDifference, apple.y * tileSize + yDifference * 1.5, tileSize - 1, tileSize - 1, apple.color);
-
-		if (IsKeyDown(KEY_SPACE))
-		{
-			start();
-		}
+		draw();
+		if (IsKeyDown(KEY_SPACE)) { start(); }
 	}
 	else
 	{
 		std::string text = "Score: " + std::to_string(snakesCurrentLength);
-		
-		for (int x = 0; x < width / tileSize; x++)
-		{
-			for (int y = 0; y < height / tileSize; y++)
-			{
-				DrawRectangle(x * tileSize + xDifference, y * tileSize + yDifference * 1.5, tileSize - 1, tileSize - 1, WHITE);
-			}
-		}
+		DrawText(text.c_str(), (width / 2) - 30, 3, 18, WHITE);
 
-		for (int i = 0; i <= snakesCurrentLength; i++)
-		{
-			DrawRectangle(segments[i].x * tileSize + xDifference, segments[i].y * tileSize + yDifference * 1.5, tileSize - 1, tileSize - 1, segments[i].color);
-		}
-
-		DrawRectangle(apple.x * tileSize + xDifference, apple.y * tileSize + yDifference * 1.5, tileSize - 1, tileSize - 1, apple.color);
-
-		DrawText(text.c_str(), (width / 2) - 30, 3, 18, WHITE); 
 		input();
+		draw();
 	}
 }
-
-int frames = 0;
 
 int main()
 {
@@ -219,10 +202,10 @@ int main()
 		if (frames%speed == 0)
 		{
 			frames = 0;
-			update();
+			updateFrame();
 		}
 
-		draw();
+		updateDraw();
 
 		EndDrawing();
 	}
