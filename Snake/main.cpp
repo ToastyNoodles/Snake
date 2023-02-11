@@ -71,8 +71,7 @@ void start()
 {
 	for (int i = 0; i <= snakesCurrentLength; i++)
 	{
-		segments[i].x = -2;
-		segments[i].y = -2;
+		segments[i].color = BLANK;
 	}
 	snakesCurrentLength = 0;
 	state = PLAYING;
