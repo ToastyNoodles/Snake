@@ -1,5 +1,5 @@
 # Snake
 
-Made using raylib.
+Originally made with C# and OpenTK but I lost that project. So to learn c++ I recreated the classic game snake.
 
-Very bad, lots of magic numbers, but it works.
+Dependencies: raylib
